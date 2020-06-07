@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'customuser.apps.CustomuserConfig',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +53,8 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'templates', 'allauth',)],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -194,7 +196,14 @@ SITE_ID = 1
 
 LOGIN_REDIRECT_URL = 'home'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+# CustomUserのモデルを定義
+AUTH_USER_MODEL = 'customuser.CustomUser'
 
+ACCOUNT_FORMS = {
+    'signup' : 'customuser.forms.CustomSignupForm',
+}
+#signupformからの情報をcustomusermodelに保存するのに必要
+ACCOUNT_ADAPTER = 'customuser.adapter.AccountAdapter'
 
 ##################
 # Email settings #
